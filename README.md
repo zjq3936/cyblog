@@ -26,6 +26,8 @@ My Blog是由Docker+SpringBoot+Mybatis+thymeleaf等技术实现的Java博客系�
 
 **网站的持续运行需要各项基础设施的搭建，而服务期的续费和维护及各种配套服务的购买也需要一定的费用，希望朋友们给予一点支持，谢谢！**
 
+**下面是13 的支持方式，请大家多多支持，博客比较清爽，我刚自己部署了一个，打算做个搬运工~~~**
+
 **支付宝：**<img src="https://raw.githubusercontent.com/ZHENFENG13/resource/master/images/2018-02-27/zhifubao1.jpg" width = "200" height = "200" alt="zhifubao"/>**微信支付：**<img src="https://raw.githubusercontent.com/ZHENFENG13/resource/master/images/2018-02-27/wxpay.jpg" width = "200" height = "200" alt="wxpay"/>
 
 # Quick Start
