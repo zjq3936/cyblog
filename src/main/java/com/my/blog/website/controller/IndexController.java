@@ -31,7 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 首页
@@ -138,6 +140,11 @@ public class IndexController extends BaseController {
      */
     private void completeArticle(HttpServletRequest request, ContentVo contents) {
         if (contents.getAllowComment()) {
+        	
+        	Map<String,String> map = new HashMap<String,String>();
+        	map.put("site_keywords", contents.getTags());
+        	map.put("site_description", contents.getTags());
+        	WebConst.initConfig = map;
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
                 cp = "1";
