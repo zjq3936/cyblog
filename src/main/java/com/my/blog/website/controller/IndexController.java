@@ -54,6 +54,7 @@ public class IndexController extends BaseController {
 
     @Resource
     private ISiteService siteService;
+    
 
     /**
      * 首页
