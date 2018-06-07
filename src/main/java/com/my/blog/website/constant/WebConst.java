@@ -47,7 +47,8 @@ public class WebConst {
     /**
      * 点击次数超过多少更新到数据库
      */
-    public static final int HIT_EXCEED = 10;
+    public static final int HIT_EXCEED = 1;
+//    public static final int HIT_EXCEED = 10;
 
     /**
      * 上传文件最大1M
@@ -62,5 +63,6 @@ public class WebConst {
     /**
      * 同一篇文章在2个小时内无论点击多少次只算一次阅读
      */
-    public static Integer HITS_LIMIT_TIME = 7200;
+    public static Integer HITS_LIMIT_TIME = 1;
+//    public static Integer HITS_LIMIT_TIME = 7200;
 }
