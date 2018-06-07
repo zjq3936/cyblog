@@ -25,6 +25,7 @@ public class CoreApplication {
         return new DruidDataSource();
     }
 
+    
     @Bean
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
