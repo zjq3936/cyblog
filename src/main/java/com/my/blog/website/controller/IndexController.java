@@ -55,12 +55,14 @@ public class IndexController extends BaseController {
 
     @Resource
     private ISiteService siteService;
-    
+
 
     /**
      * 首页
      *
-     * @return
+     * @param request 请求
+     * @param limit 分页
+     * @return 主页
      */
     @GetMapping(value = "/")
     public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "12") int limit) {
@@ -91,7 +93,7 @@ public class IndexController extends BaseController {
      *
      * @param request 请求
      * @param cid     文章主键
-     * @return
+     * @return 空
      */
     @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
     public String getArticle(HttpServletRequest request, @PathVariable String cid) {
@@ -115,7 +117,7 @@ public class IndexController extends BaseController {
      *
      * @param request 请求
      * @param cid     文章主键
-     * @return
+     * @return 空
      */
     @GetMapping(value = {"article/{cid}/preview", "article/{cid}.html"})
     public String articlePreview(HttpServletRequest request, @PathVariable String cid) {
@@ -137,8 +139,8 @@ public class IndexController extends BaseController {
     /**
      * 抽取公共方法
      *
-     * @param request
-     * @param contents
+     * @param request 空
+     * @param contents 空
      */
     private void completeArticle(HttpServletRequest request, ContentVo contents) {
         if (contents.getAllowComment()) {
@@ -164,8 +166,8 @@ public class IndexController extends BaseController {
     /**
      * 注销
      *
-     * @param session
-     * @param response
+     * @param session 空
+     * @param response 空
      */
     @RequestMapping("logout")
     public void logout(HttpSession session, HttpServletResponse response) {
@@ -256,7 +258,7 @@ public class IndexController extends BaseController {
     /**
      * 分类页
      *
-     * @return
+     * @return 空
      */
     @GetMapping(value = "category/{keyword}")
     public String categories(HttpServletRequest request, @PathVariable String keyword, @RequestParam(value = "limit", defaultValue = "12") int limit) {
@@ -286,7 +288,7 @@ public class IndexController extends BaseController {
     /**
      * 归档页
      *
-     * @return
+     * @return 空
      */
     @GetMapping(value = "archives")
     public String archives(HttpServletRequest request) {
@@ -298,7 +300,7 @@ public class IndexController extends BaseController {
     /**
      * 友链页
      *
-     * @return
+     * @return 空
      */
     @GetMapping(value = "links")
     public String links(HttpServletRequest request) {
@@ -335,8 +337,8 @@ public class IndexController extends BaseController {
     /**
      * 搜索页
      *
-     * @param keyword
-     * @return
+     * @param keyword 空
+     * @return 空
      */
     @GetMapping(value = "search/{keyword}")
     public String search(HttpServletRequest request, @PathVariable String keyword, @RequestParam(value = "limit", defaultValue = "12") int limit) {
@@ -356,8 +358,8 @@ public class IndexController extends BaseController {
     /**
      * 更新文章的点击率
      *
-     * @param cid
-     * @param chits
+     * @param cid 空
+     * @param chits 空
      */
     private void updateArticleHit(Integer cid, Integer chits) {
         Integer hits = cache.hget("article" + cid, "hits");
@@ -387,8 +389,8 @@ public class IndexController extends BaseController {
     /**
      * 标签页
      *
-     * @param name
-     * @return
+     * @param name 空
+     * @return 空
      */
     @GetMapping(value = "tag/{name}")
     public String tags(HttpServletRequest request, @PathVariable String name, @RequestParam(value = "limit", defaultValue = "12") int limit) {
@@ -398,11 +400,11 @@ public class IndexController extends BaseController {
     /**
      * 标签分页
      *
-     * @param request
-     * @param name
-     * @param page
-     * @param limit
-     * @return
+     * @param request 空
+     * @param name 空
+     * @param page 空
+     * @param limit 空
+     * @return 空
      */
     @GetMapping(value = "tag/{name}/{page}")
     public String tags(HttpServletRequest request, @PathVariable String name, @PathVariable int page, @RequestParam(value = "limit", defaultValue = "12") int limit) {
@@ -427,10 +429,10 @@ public class IndexController extends BaseController {
     /**
      * 设置cookie
      *
-     * @param name
-     * @param value
-     * @param maxAge
-     * @param response
+     * @param name 空
+     * @param value 空
+     * @param maxAge 空
+     * @param response 空
      */
     private void cookie(String name, String value, int maxAge, HttpServletResponse response) {
         Cookie cookie = new Cookie(name, value);
@@ -442,9 +444,9 @@ public class IndexController extends BaseController {
     /**
      * 检查同一个ip地址是否在2小时内访问同一文章
      *
-     * @param request
-     * @param cid
-     * @return
+     * @param request 空
+     * @param cid 空
+     * @return 空
      */
     private boolean checkHitsFrequency(HttpServletRequest request, String cid) {
         String val = IPKit.getIpAddrByRequest(request) + ":" + cid;
