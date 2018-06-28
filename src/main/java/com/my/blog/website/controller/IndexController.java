@@ -15,6 +15,7 @@ import com.my.blog.website.service.ICommentService;
 import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.ISiteService;
+import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.IPKit;
 import com.my.blog.website.utils.PatternKit;
 import com.my.blog.website.utils.TaleUtils;
@@ -143,8 +144,12 @@ public class IndexController extends BaseController {
         if (contents.getAllowComment()) {
         	
         	Map<String,String> map = new HashMap<String,String>();
-        	map.put("site_keywords", contents.getTags());
-        	map.put("site_description", contents.getTags());
+            String today = DateKit.getToday("yyyy-MM-dd");
+            Integer dateHits = cache.hget("dataHits",today);
+
+            map.put("site_keywords", contents.getTags());
+            map.put("site_description", contents.getTags());
+            map.put("dateHits", String.valueOf(dateHits));
         	WebConst.initConfig = map;
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
@@ -369,6 +374,14 @@ public class IndexController extends BaseController {
         } else {
             cache.hset("article" + cid, "hits", hits);
         }
+
+        //统计保存当日的访问量/点击量
+        //获取当前日期  86400 秒 是一天
+        String today = DateKit.getToday("yyyy-MM-dd");
+        Integer dateHits = cache.hget("dataHits",today);
+        dateHits = null == dateHits ? 1 : dateHits + 1;
+        cache.hset("dataHits",today,dateHits,86400);
+
     }
 
     /**
