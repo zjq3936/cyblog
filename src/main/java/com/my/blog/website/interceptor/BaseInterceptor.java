@@ -1,21 +1,31 @@
 package com.my.blog.website.interceptor;
 
-import com.my.blog.website.model.Vo.OptionVo;
-import com.my.blog.website.model.Vo.UserVo;
-import com.my.blog.website.service.IOptionService;
-import com.my.blog.website.service.IUserService;
-import com.my.blog.website.utils.*;
-import com.my.blog.website.constant.WebConst;
-import com.my.blog.website.dto.Types;
+import java.util.Date;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.my.blog.website.constant.WebConst;
+import com.my.blog.website.dto.Types;
+import com.my.blog.website.model.Vo.Ips;
+import com.my.blog.website.model.Vo.OptionVo;
+import com.my.blog.website.model.Vo.UserVo;
+import com.my.blog.website.service.IIpsService;
+import com.my.blog.website.service.IOptionService;
+import com.my.blog.website.service.IUserService;
+import com.my.blog.website.utils.AdminCommons;
+import com.my.blog.website.utils.Commons;
+import com.my.blog.website.utils.IPKit;
+import com.my.blog.website.utils.MapCache;
+import com.my.blog.website.utils.TaleUtils;
+import com.my.blog.website.utils.UUID;
 
 /**
  * 自定义拦截器
@@ -28,6 +38,9 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     @Resource
     private IUserService userService;
+    
+    @Resource
+    private IIpsService ipsService;
 
     @Resource
     private IOptionService optionService;
@@ -48,7 +61,12 @@ public class BaseInterceptor implements HandlerInterceptor {
 
         LOGGE.info("UserAgent: {}", request.getHeader(USER_AGENT));
         LOGGE.info("用户访问地址: {}, 来路地址: {}", uri, IPKit.getIpAddrByRequest(request));
-
+        //保存访问者IP用于统计
+        
+        Ips ips = new Ips();
+        ips.setIp(IPKit.getIpAddrByRequest(request));
+        ips.setTime(new Date());
+        ipsService.saveIps(ips);
 
         //请求拦截处理
         UserVo user = TaleUtils.getLoginUser(request);

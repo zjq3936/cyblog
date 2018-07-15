@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='访问统计',active='visiteSta'">
+<header th:replace="admin/header::headerFragment(${title},${active})"></header>
+<link th:href="@{/admin/plugins/toggles/toggles.css}" rel="stylesheet"/>
+<body class="fixed-left">
+<div id="wrapper">
+    <div th:replace="admin/header::header-body"></div>
+    <div class="content-page">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">访问统计</h4>
+                    </div>
+                    
+					<div class="col-md-12">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>访问IP</th>
+                                <th>访问次数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="link : ${links}">
+                                <tr th:attr="mid=${link.mid}">
+                                    <td th:text="${link.name}"></td>
+                                    <td><a th:href="@{${link.slug}}" target="_blank" th:text="${link.slug}"></a></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+
+					<!-- <div th:replace="comm/macros :: pageAdminNav(${comments})"></div> -->
+
+                </div>
+                <div th:replace="admin/footer :: footer-content"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="admin/footer :: footer"></div>
+<script src="//cdn.bootcss.com/jquery-toggles/2.0.4/toggles.min.js"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var tale = new $.tale();
+
+    /**
+     * 保存全局设置
+     */
+    function saveSetting() {
+        var param = $('#global-form').serialize();
+        tale.post({
+            url : '/admin/setting',
+            data: param,
+            success: function (result) {
+                if(result && result.success){
+                    tale.alertOk('设置保存成功');
+                } else {
+                    tale.alertError(result.msg || '设置保存失败');
+                }
+            }
+        });
+    }
+
+    /**
+     * 保存个性化设置
+     */
+    function saveIndiviSetting() {
+        var param = $('#indivi-form').serialize();
+        tale.post({
+            url : '/admin/setting',
+            data: param,
+            success: function (result) {
+                if(result && result.success){
+                    tale.alertOk('设置保存成功');
+                } else {
+                    tale.alertError(result.msg || '设置保存失败');
+                }
+            }
+        });
+    }
+    /**
+     * 设置是否允许重新安装
+     */
+    function allow_reinstall(obj) {
+        var this_ = $(obj);
+        var on = this_.find('.toggle-on.active').length;
+        var off = this_.find('.toggle-off.active').length;
+        if (on == 1) {
+            $('#allow_install').val(0);
+        }
+        if (off == 1) {
+            $('#allow_install').val(1);
+        }
+    }
+
+    /**
+     * 系统备份
+     * @param type
+     */
+    function backup(type) {
+        var param = {
+            bk_type: type,
+            bk_path: $('#backup_dir').val()
+        };
+        tale.post({
+            url : '/admin/setting/backup',
+            data: param,
+            success: function (result) {
+                if(result && result.success){
+                    if(result.payload && result.payload.attach_path){
+                        swal('备份成功', '您的附件备份在 <mark>'+ result.payload.attach_path +'</mark><br/><br/>' +
+                            '主题备份存储在 <mark>'+ result.payload.theme_path +'</mark>', 'success');
+                        $('#backup_dir').val('');
+                    }
+                    if(result.payload.sql_path){
+                        window.location.href = '/upload/' + result.payload.sql_path;
+                    }
+                } else {
+                    tale.alertError(result.msg || '备份失败');
+                }
+            }
+        });
+    }
+
+    $('.allow-1').toggles({
+        on: true,
+        text: {
+            on: '开启',
+            off: '关闭'
+        }
+    });
+    $('.allow-0').toggles({
+        off: true,
+        text: {
+            on: '开启',
+            off: '关闭'
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>
